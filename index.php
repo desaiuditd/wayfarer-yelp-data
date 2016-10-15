@@ -8,19 +8,6 @@
 
 include_once "../ee-config.php";
 
-// Create connection
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-// Check connection
-if ($conn->connect_error) {
-	header('Content-Type: application/json');
-	$json = array(
-		'error_code' => 500,
-		'message' => 'Connection failed: ' . $conn->connect_error,
-	);
-	echo json_encode($json);
-	exit();
-}
-
 $twitter_handle = $_GET['twitter_handle'];
 $city = $_GET['city'];
 
@@ -29,6 +16,23 @@ if ( empty($twitter_handle) || empty($city) ) {
 	$json = array(
 		'error_code' => 400,
 		'message' => 'Data Missing. Pass `twitter_handle` & `city` values as query parameters: ' . $conn->connect_error,
+	);
+	echo json_encode($json);
+	exit();
+}
+
+// 1. Take twitter handle & fetch tweets
+
+// 2. Take city & fetch reviews
+
+// Create connection
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+// Check connection
+if ($conn->connect_error) {
+	header('Content-Type: application/json');
+	$json = array(
+		'error_code' => 500,
+		'message' => 'Connection failed: ' . $conn->connect_error,
 	);
 	echo json_encode($json);
 	exit();
