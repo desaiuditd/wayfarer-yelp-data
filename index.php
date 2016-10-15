@@ -21,10 +21,24 @@ if ($conn->connect_error) {
 	exit();
 }
 
+$twitter_handle = $_GET['twitter_handle'];
+$city = $_GET['city'];
+
+if ( empty($twitter_handle) || empty($city) ) {
+	header('Content-Type: application/json');
+	$json = array(
+		'error_code' => 400,
+		'message' => 'Data Missing. Pass `twitter_handle` & `city` values as query parameters: ' . $conn->connect_error,
+	);
+	echo json_encode($json);
+	exit();
+}
+
 $sql = "SELECT * FROM review LIMIT 10";
 $result = $conn->query($sql);
 
 $reviews = array();
+
 if ($result->num_rows > 0) {
 	// output data of each row
 	while($row = $result->fetch_assoc()) {
