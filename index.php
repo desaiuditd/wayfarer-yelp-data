@@ -49,9 +49,11 @@ $access_token_secret = "TL8acUKIJXaUPEACs2Tei2XxFcCJLI70VzosCsZTqwBch";
 $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token, $access_token_secret);
 $content = $connection->get("account/verify_credentials");
 
-$response = $connection->get("search/tweets", ["q" => $twitter_handle]);
+$response = $connection->get("statuses/user_timeline",
+    ["screen_name" => $twitter_handle, "exclude_replies" => true, "count" => 500]);
 $textForPI = "";
-foreach ($response->statuses as $status) {
+var_dump(sizeof($response));
+foreach ($response as $status) {
     $textForPI .= $status->text;
 }
 var_dump($textForPI);
