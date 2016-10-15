@@ -150,6 +150,9 @@ foreach ($businesses as $i => $b) {
 			// PI API Call
 			$pi = get_personal_insights($text_for_pi);
 
+			var_dump($pi);
+			continue;
+
 			if ($pi && $pi->tree && $pi->tree && $pi->tree->children) {
 				$businesses[$i]['wayfarer_scores']['personality']['Openness'] += $pi->tree->children[0]['children'][0]['children'][0]['percentage'];
 				$businesses[$i]['wayfarer_scores']['personality']['Conscientiousness'] += $pi->tree->children[0]['children'][0]['children'][1]['percentage'];
