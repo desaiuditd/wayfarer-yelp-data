@@ -142,18 +142,14 @@ foreach ($businesses as $i => $b) {
 //			$businesses[$i]['reviews'][] = $row;
 			$text_for_pi = $row['review_text'];
 
-
-			var_dump(str_word_count($text_for_pi));
-
 			while (str_word_count($text_for_pi) <= 100) {
-				$text_for_pi = $text_for_pi + $text_for_pi;
-				var_dump(str_word_count($text_for_pi));
+				$text_for_pi = $text_for_pi . $text_for_pi;
 			}
 
 			// PI API Call
-//			$pi = get_personal_insights($text_for_pi);
+			$pi = get_personal_insights($text_for_pi);
 
-//			var_dump($pi);
+			var_dump($pi);
 
 //			$businesses[$i]['wayfarer_scores']['personality']['Openness'] += $pi->tree->children[0]['children'][0]['children'][0]['percentage'];
 //			$businesses[$i]['wayfarer_scores']['personality']['Conscientiousness'] += $pi->tree->children[0]['children'][0]['children'][1]['percentage'];
