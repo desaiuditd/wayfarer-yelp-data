@@ -7,6 +7,7 @@
  */
 function get_personal_insights($text) {
 	$url = 'https://d5020f3a-9667-4ff3-b084-b3f17ced03ed:YfHke0nzjrgB@gateway.watsonplatform.net/personality-insights/api/v2/profile';
+	error_log($url);
 	$data = $text;
 
 	// use key 'http' even if you send the request to https://...
