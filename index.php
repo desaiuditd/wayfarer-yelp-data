@@ -16,9 +16,9 @@ function get_personal_insights($text) {
 	                            ->sends(\Httpful\Mime::PLAIN)
 	                            ->send();
 
-	error_log($result);
+	error_log(json_decode($result));
 
-	return $result;
+	return json_decode($result);
 }
 
 function get_sentimental_analysis($content) {
@@ -149,9 +149,13 @@ foreach ($businesses as $i => $b) {
 
 			$text_for_pi = $row['review_text'];
 
+			error_log(strlen($text_for_pi));
+
 			while (strlen($text_for_pi) <= 100) {
 				$text_for_pi = $text_for_pi + $text_for_pi;
 			}
+
+			error_log(strlen($text_for_pi));
 
 			// PI API Call
 			$pi = get_personal_insights($text_for_pi);
