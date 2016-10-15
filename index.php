@@ -7,7 +7,6 @@
  */
 function get_personal_insights($text) {
 	$url = 'https://gateway.watsonplatform.net/personality-insights/api/v2/profile';
-	error_log($url);
 	$data = $text;
 
 	$result = \Httpful\Request::post($url)
@@ -15,8 +14,6 @@ function get_personal_insights($text) {
 	                            ->body($data)
 	                            ->sends(\Httpful\Mime::PLAIN)
 	                            ->send();
-
-	error_log(var_export(json_decode($result),true));
 
 	return json_decode($result);
 }
@@ -149,13 +146,9 @@ foreach ($businesses as $i => $b) {
 
 			$text_for_pi = $row['review_text'];
 
-			error_log(strlen($text_for_pi));
-
-			while (strlen($text_for_pi) <= 100) {
+			while (str_word_count($text_for_pi) <= 100) {
 				$text_for_pi = $text_for_pi + $text_for_pi;
 			}
-
-			error_log(strlen($text_for_pi));
 
 			// PI API Call
 			$pi = get_personal_insights($text_for_pi);
