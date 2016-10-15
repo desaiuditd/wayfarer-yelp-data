@@ -44,7 +44,7 @@ FROM review AS r
 JOIN business AS b
 ON r.business_id = b.business_id
 WHERE city LIKE '%" . $city . "%'
-ORDER BY b.stars
+ORDER BY b.stars DESC
 LIMIT 50";
 $result = $conn->query($sql);
 
