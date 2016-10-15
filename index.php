@@ -16,7 +16,7 @@ function get_personal_insights($text) {
 	                            ->sends(\Httpful\Mime::PLAIN)
 	                            ->send();
 
-	error_log(json_decode($result));
+	error_log(var_export(json_decode($result),true));
 
 	return json_decode($result);
 }
