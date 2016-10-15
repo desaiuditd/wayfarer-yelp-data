@@ -108,7 +108,7 @@ foreach ($businesses as $i => $b) {
 	var_dump($b);
 
 	var_dump($sql);
-//	$result = $conn->query($sql);
+	$result = $conn->query($sql);
 //	$businesses[$i]['reviews'] = array();
 //	$businesses[$i]['wayfarer_scores'] = array(
 //		'personality' => array(
@@ -140,9 +140,10 @@ foreach ($businesses as $i => $b) {
 //			'Self-transcendence' => 0,
 //		),
 //	);
-//	if ($result->num_rows > 0) {
+	if ($result->num_rows > 0) {
 		// output data of each row
-//		while($row = $result->fetch_assoc()) {
+		while($row = $result->fetch_assoc()) {
+			var_dump($row);
 //			$businesses[$i]['reviews'][] = $row;
 
 //			while (str_word_count($text_for_pi) <= 100) {
@@ -177,8 +178,8 @@ foreach ($businesses as $i => $b) {
 //			$businesses[$i]['wayfarer_scores']['values']['Self-enhancement'] += $pi->tree->children[2]['children'][0]['children'][3]['percentage'];
 //			$businesses[$i]['wayfarer_scores']['values']['Self-transcendence'] += $pi->tree->children[2]['children'][0]['children'][4]['percentage'];
 
-//		}
-//	}
+		}
+	}
 
 //	$businesses[$i]['wayfarer_scores']['personality']['Openness'] /= count($businesses[$i]['reviews']);
 //	$businesses[$i]['wayfarer_scores']['personality']['Conscientiousness'] /= count($businesses[$i]['reviews']);
