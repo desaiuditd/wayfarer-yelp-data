@@ -99,7 +99,6 @@ if ($result->num_rows > 0) {
 }
 
 error_log(var_export($businesses,true));
-exit();
 
 foreach ($businesses as $i => $b) {
 	error_log("business - ".$i);
@@ -154,6 +153,9 @@ foreach ($businesses as $i => $b) {
 
 			// PI API Call
 			$pi = get_personal_insights($text_for_pi);
+			error_log(var_export($pi, true));
+			continue;
+
 			$businesses[$i]['wayfarer_scores']['personality']['Openness'] += $pi->tree->children[0]['children'][0]['children'][0]['percentage'];
 			$businesses[$i]['wayfarer_scores']['personality']['Conscientiousness'] += $pi->tree->children[0]['children'][0]['children'][1]['percentage'];
 			$businesses[$i]['wayfarer_scores']['personality']['Extraversion'] += $pi->tree->children[0]['children'][0]['children'][2]['percentage'];
