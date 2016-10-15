@@ -5,6 +5,12 @@
  * Date: 15/10/16
  * Time: 09:04
  */
+
+// Fields to amplify with weight in Cool Mode.
+// Challenge
+// Excitement
+// Openness to change
+
 include('./httpful.phar');
 
 function get_personal_insights($text) {
@@ -40,6 +46,8 @@ define ('CONSUMER_SECRET', "YNakI4IOV3tiRNlBbxrpuXWaYVhyNOPHOVxJM2zD3VRARm4UjK")
 $twitter_handle = $_GET['twitter_handle'];
 $city = $_GET['city'];
 $city = '%'.$city.'%';
+
+$is_cool_mode = !empty($_GET['cool_mode']);
 
 if ( empty($twitter_handle) || empty($city) ) {
 	header('Content-Type: application/json');
@@ -186,10 +194,12 @@ foreach ($businesses as $i => $b) {
 				$businesses[$i]['wayfarer_review_scores']['personality']['Agreeableness'] += $pi->tree->children[0]->children[0]->children[2]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['personality']['Neuroticism'] += $pi->tree->children[0]->children[0]->children[3]->percentage;
 
-				$businesses[$i]['wayfarer_review_scores']['needs']['Challenge'] += $pi->tree->children[1]->children[0]->children[0]->percentage;
+				$challenge = ($is_cool_mode) ? 5 * $pi->tree->children[1]->children[0]->children[0]->percentage : $pi->tree->children[1]->children[0]->children[0]->percentage;
+				$businesses[$i]['wayfarer_review_scores']['needs']['Challenge'] += $challenge;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Closeness'] += $pi->tree->children[1]->children[0]->children[1]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Curiosity'] += $pi->tree->children[1]->children[0]->children[2]->percentage;
-				$businesses[$i]['wayfarer_review_scores']['needs']['Excitement'] += $pi->tree->children[1]->children[0]->children[3]->percentage;
+				$excitement = ($is_cool_mode) ? 5 * $pi->tree->children[1]->children[0]->children[3]->percentage : $pi->tree->children[1]->children[0]->children[3]->percentage;
+				$businesses[$i]['wayfarer_review_scores']['needs']['Excitement'] += $excitement;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Harmony'] += $pi->tree->children[1]->children[0]->children[4]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Ideal'] += $pi->tree->children[1]->children[0]->children[5]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Liberty'] += $pi->tree->children[1]->children[0]->children[6]->percentage;
@@ -200,7 +210,8 @@ foreach ($businesses as $i => $b) {
 				$businesses[$i]['wayfarer_review_scores']['needs']['Structure'] += $pi->tree->children[1]->children[0]->children[11]->percentage;
 
 				$businesses[$i]['wayfarer_review_scores']['values']['Conservation'] += $pi->tree->children[2]->children[0]->children[0]->percentage;
-				$businesses[$i]['wayfarer_review_scores']['values']['Openness to change'] += $pi->tree->children[2]->children[0]->children[1]->percentage;
+				$openness = ($is_cool_mode) ? 5 * $pi->tree->children[2]->children[0]->children[1]->percentage : $pi->tree->children[2]->children[0]->children[1]->percentage;
+				$businesses[$i]['wayfarer_review_scores']['values']['Openness to change'] += $openness;
 				$businesses[$i]['wayfarer_review_scores']['values']['Hedonism'] += $pi->tree->children[2]->children[0]->children[2]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['values']['Self-enhancement'] += $pi->tree->children[2]->children[0]->children[3]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['values']['Self-transcendence'] += $pi->tree->children[2]->children[0]->children[4]->percentage;
@@ -209,16 +220,17 @@ foreach ($businesses as $i => $b) {
 		}
 	}
 
+	$total = ($is_cool_mode) ? (count($businesses[$i]['reviews']) + 4) : count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['personality']['Openness'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['personality']['Conscientiousness'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['personality']['Extraversion'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['personality']['Agreeableness'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['personality']['Neuroticism'] /= count($businesses[$i]['reviews']);
 
-	$businesses[$i]['wayfarer_review_scores']['needs']['Challenge'] /= count($businesses[$i]['reviews']);
+	$businesses[$i]['wayfarer_review_scores']['needs']['Challenge'] /= $total;
 	$businesses[$i]['wayfarer_review_scores']['needs']['Closeness'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['needs']['Curiosity'] /= count($businesses[$i]['reviews']);
-	$businesses[$i]['wayfarer_review_scores']['needs']['Excitement'] /= count($businesses[$i]['reviews']);
+	$businesses[$i]['wayfarer_review_scores']['needs']['Excitement'] /= $total;
 	$businesses[$i]['wayfarer_review_scores']['needs']['Harmony'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['needs']['Ideal'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['needs']['Liberty'] /= count($businesses[$i]['reviews']);
@@ -229,7 +241,7 @@ foreach ($businesses as $i => $b) {
 	$businesses[$i]['wayfarer_review_scores']['needs']['Structure'] /= count($businesses[$i]['reviews']);
 
 	$businesses[$i]['wayfarer_review_scores']['values']['Conservation'] /= count($businesses[$i]['reviews']);
-	$businesses[$i]['wayfarer_review_scores']['values']['Openness to change'] /= count($businesses[$i]['reviews']);
+	$businesses[$i]['wayfarer_review_scores']['values']['Openness to change'] /= $total;
 	$businesses[$i]['wayfarer_review_scores']['values']['Hedonism'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['values']['Self-enhancement'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['values']['Self-transcendence'] /= count($businesses[$i]['reviews']);
