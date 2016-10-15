@@ -103,46 +103,49 @@ foreach ($businesses as $i => $b) {
 		FROM review AS r
 		WHERE r.business_id = '" . $b['business_id'] . "'
 		LIMIT 5";
-	$result = $conn->query($sql);
-	$businesses[$i]['reviews'] = array();
-	$businesses[$i]['wayfarer_scores'] = array(
-		'personality' => array(
-			'Openness' => 0,
-			'Conscientiousness' => 0,
-			'Extraversion' => 0,
-			'Agreeableness' => 0,
-			'Neuroticism' => 0,
-		),
-		'needs' => array(
-			'Challenge' => 0,
-			'Closeness' => 0,
-			'Curiosity' => 0,
-			'Excitement' => 0,
-			'Harmony' => 0,
-			'Ideal' => 0,
-			'Liberty' => 0,
-			'Love' => 0,
-			'Practicality' => 0,
-			'Self-expression' => 0,
-			'Stability' => 0,
-			'Structure' => 0,
-		),
-		'values' => array(
-			'Conservation' => 0,
-			'Openness to change' => 0,
-			'Hedonism' => 0,
-			'Self-enhancement' => 0,
-			'Self-transcendence' => 0,
-		),
-	);
-	if ($result->num_rows > 0) {
-		// output data of each row
-		while($row = $result->fetch_assoc()) {
-			$businesses[$i]['reviews'][] = $row;
 
-			while (str_word_count($text_for_pi) <= 100) {
-				$text_for_pi = $text_for_pi + $text_for_pi;
-			}
+	var_dump($i);
+	var_dump($b);
+//	$result = $conn->query($sql);
+//	$businesses[$i]['reviews'] = array();
+//	$businesses[$i]['wayfarer_scores'] = array(
+//		'personality' => array(
+//			'Openness' => 0,
+//			'Conscientiousness' => 0,
+//			'Extraversion' => 0,
+//			'Agreeableness' => 0,
+//			'Neuroticism' => 0,
+//		),
+//		'needs' => array(
+//			'Challenge' => 0,
+//			'Closeness' => 0,
+//			'Curiosity' => 0,
+//			'Excitement' => 0,
+//			'Harmony' => 0,
+//			'Ideal' => 0,
+//			'Liberty' => 0,
+//			'Love' => 0,
+//			'Practicality' => 0,
+//			'Self-expression' => 0,
+//			'Stability' => 0,
+//			'Structure' => 0,
+//		),
+//		'values' => array(
+//			'Conservation' => 0,
+//			'Openness to change' => 0,
+//			'Hedonism' => 0,
+//			'Self-enhancement' => 0,
+//			'Self-transcendence' => 0,
+//		),
+//	);
+//	if ($result->num_rows > 0) {
+		// output data of each row
+//		while($row = $result->fetch_assoc()) {
+//			$businesses[$i]['reviews'][] = $row;
+
+//			while (str_word_count($text_for_pi) <= 100) {
+//				$text_for_pi = $text_for_pi + $text_for_pi;
+//			}
 
 			// PI API Call
 //			$pi = get_personal_insights($text_for_pi);
@@ -172,8 +175,8 @@ foreach ($businesses as $i => $b) {
 //			$businesses[$i]['wayfarer_scores']['values']['Self-enhancement'] += $pi->tree->children[2]['children'][0]['children'][3]['percentage'];
 //			$businesses[$i]['wayfarer_scores']['values']['Self-transcendence'] += $pi->tree->children[2]['children'][0]['children'][4]['percentage'];
 
-		}
-	}
+//		}
+//	}
 
 //	$businesses[$i]['wayfarer_scores']['personality']['Openness'] /= count($businesses[$i]['reviews']);
 //	$businesses[$i]['wayfarer_scores']['personality']['Conscientiousness'] /= count($businesses[$i]['reviews']);
