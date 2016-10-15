@@ -76,10 +76,48 @@ foreach ($businesses as $i => $b) {
 		LIMIT 5";
 	$result = $conn->query($sql);
 	$businesses[$i]['reviews'] = array();
+	$businesses[$i]['wayfarer_scores'] = array(
+		'personality' => array(
+			'Openness' => 0,
+			'Conscientiousness' => 0,
+			'Extraversion' => 0,
+			'Agreeableness' => 0,
+			'Neuroticism' => 0,
+		),
+		'needs' => array(
+			'Challenge' => 0,
+			'Closeness' => 0,
+			'Curiosity' => 0,
+			'Excitement' => 0,
+			'Harmony' => 0,
+			'Ideal' => 0,
+			'Liberty' => 0,
+			'Love' => 0,
+			'Practicality' => 0,
+			'Self-expression' => 0,
+			'Stability' => 0,
+			'Structure' => 0,
+		),
+		'values' => array(
+			'Conservation' => 0,
+			'Openness to change' => 0,
+			'Hedonism' => 0,
+			'Self-enhancement' => 0,
+			'Self-transcendence' => 0,
+		),
+	);
 	if ($result->num_rows > 0) {
 		// output data of each row
 		while($row = $result->fetch_assoc()) {
 			$businesses[$i]['reviews'][] = $row;
+
+			$text_for_pi = $row['review_text'];
+
+			while (strlen($text_for_pi) <= 100) {
+				$text_for_pi = $text_for_pi + $text_for_pi;
+			}
+
+			// PI API Call
 		}
 	}
 }
