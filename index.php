@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 	exit();
 }
 
-$sql = "SELECT * FROM review LIMIT = 10";
+$sql = "SELECT * FROM review LIMIT 10";
 $result = $conn->query($sql);
 
 $reviews = array();
