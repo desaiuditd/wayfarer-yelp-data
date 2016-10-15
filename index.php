@@ -19,20 +19,14 @@ function get_personal_insights($text) {
 }
 
 function get_sentimental_analysis($content) {
-    $url = 'https://gateway-a.watsonplatform.net/calls/url/URLGetCombinedData?apikey=cfe0e576ced36092902453304d79eb7e3603432f&url=https://www.ibm.com/us-en/&sentiment=1';
+    $url = 'https://gateway-a.watsonplatform.net/calls/url/URLGetCombinedData?apikey=cfe0e576ced36092902453304d79eb7e3603432f';
     $data = $content;
 
-    // use key 'http' even if you send the request to https://...
-    $options = array(
-        'http' => array(
-            'header'  => "Content-type: text/plain\r\n",
-            'method'  => 'POST',
-            'content' => $data,
-        ),
-    );
-    $context  = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
-    if ($result === FALSE) { return false; }
+	$result = \Httpful\Request::post($url)
+								->body($data)
+								->sends(\Httpful\Mime::PLAIN)
+								->send();
+
     return json_decode($result);
 }
 include('./httpful.phar');
