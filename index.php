@@ -52,7 +52,7 @@ $content = $connection->get("account/verify_credentials");
 $response = $connection->get("search/tweets", ["q" => $twitter_handle]);
 $textForPI = "";
 foreach ($response->statuses as $status) {
-    $textForPI .= $status['text'];
+    $textForPI .= $status->text;
 }
 var_dump($textForPI);
 
