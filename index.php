@@ -98,6 +98,9 @@ if ($result->num_rows > 0) {
 	}
 }
 
+error_log(var_export($businesses,true));
+exit();
+
 foreach ($businesses as $i => $b) {
 	error_log("business - ".$i);
 	$sql = "SELECT *
