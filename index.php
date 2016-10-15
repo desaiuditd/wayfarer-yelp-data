@@ -5,6 +5,26 @@
  * Date: 15/10/16
  * Time: 09:04
  */
+function get_personal_insights($text) {
+	$url = 'https://d5020f3a-9667-4ff3-b084-b3f17ced03ed:YfHke0nzjrgB@gateway.watsonplatform.net/personality-insights/api/v2/profile';
+	$data = $text;
+
+	// use key 'http' even if you send the request to https://...
+	$options = array(
+		'http' => array(
+			'header'  => "Content-type: text/plain\r\n",
+			'method'  => 'POST',
+			'content' => $data,
+		),
+	);
+	$context  = stream_context_create($options);
+	$result = file_get_contents($url, false, $context);
+	if ($result === FALSE) { return false; }
+
+	var_dump($result);
+
+	return $result;
+}
 
 include_once "../ee-config.php";
 require "twitteroauth/autoload.php";
@@ -118,6 +138,7 @@ foreach ($businesses as $i => $b) {
 			}
 
 			// PI API Call
+			$pi = get_personal_insights($text_for_pi);
 		}
 	}
 }
