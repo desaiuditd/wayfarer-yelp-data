@@ -40,24 +40,37 @@ if ($conn->connect_error) {
 }
 
 $sql = "SELECT *
-FROM review AS r 
-JOIN business AS b
-ON r.business_id = b.business_id
-WHERE city LIKE '%" . $city . "%'
-GROUP BY b.business_id
-ORDER BY b.stars DESC
-LIMIT 50";
+	FROM business AS b
+	WHERE b.city LIKE '%" . $city . "%'
+	ORDER BY b.stars DESC
+	LIMIT 5";
 $result = $conn->query($sql);
 
-$reviews = array();
+$businesses = array();
 
 if ($result->num_rows > 0) {
 	// output data of each row
 	while($row = $result->fetch_assoc()) {
-		$reviews[] = $row;
+		$businesses[] = $row;
 	}
 }
+
+foreach ($businesses as $i => $b) {
+	$sql = "SELECT *
+		FROM review AS r
+		WHERE r.business_id = '" . $b['business_id'] . "'
+		LIMIT 5";
+	$result = $conn->query($sql);
+	$businesses[$i]['reviews'] = array();
+	if ($result->num_rows > 0) {
+		// output data of each row
+		while($row = $result->fetch_assoc()) {
+			$businesses[$i]['reviews'][] = $row;
+		}
+	}
+}
+
 $conn->close();
 
 header('Content-Type: application/json');
-echo json_encode($reviews);
+echo json_encode($businesses);
