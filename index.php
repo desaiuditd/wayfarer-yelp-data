@@ -32,7 +32,11 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token, $ac
 $content = $connection->get("account/verify_credentials");
 
 $response = $connection->get("search/tweets", ["q" => $twitter_handle]);
-var_dump($response);
+$textForPI = "";
+foreach ($status as $response->statuses) {
+    $textForPI .= $status->text;
+}
+var_dump($textForPI);
 
 // 2. Take city & fetch reviews
 
