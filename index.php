@@ -24,6 +24,23 @@ function get_personal_insights($text) {
 	return json_decode($result);
 }
 
+function get_sentimental_analysis($content) {
+    $url = 'https://gateway-a.watsonplatform.net/calls/url/URLGetCombinedData?apikey=cfe0e576ced36092902453304d79eb7e3603432f&url=https://www.ibm.com/us-en/&sentiment=1';
+    $data = $content;
+
+    // use key 'http' even if you send the request to https://...
+    $options = array(
+        'http' => array(
+            'header'  => "Content-type: text/plain\r\n",
+            'method'  => 'POST',
+            'content' => $data,
+        ),
+    );
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+    if ($result === FALSE) { return false; }
+    return json_decode($result);
+}
 include_once "../ee-config.php";
 require "twitteroauth/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -52,11 +69,12 @@ $content = $connection->get("account/verify_credentials");
 $response = $connection->get("statuses/user_timeline",
     ["screen_name" => $twitter_handle, "exclude_replies" => true, "count" => 500]);
 $textForPI = "";
-var_dump(sizeof($response));
 foreach ($response as $status) {
     $textForPI .= $status->text;
 }
-var_dump($textForPI);
+
+// 1.1 Send for PI and SA to IBM Watson API.
+$sa = get_sentimental_analysis($textForPI);
 
 // 2. Take city & fetch reviews
 
