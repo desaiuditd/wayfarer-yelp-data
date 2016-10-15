@@ -106,6 +106,8 @@ foreach ($businesses as $i => $b) {
 
 	var_dump($i);
 	var_dump($b);
+
+	var_dump($sql);
 //	$result = $conn->query($sql);
 //	$businesses[$i]['reviews'] = array();
 //	$businesses[$i]['wayfarer_scores'] = array(
