@@ -10,6 +10,7 @@ include_once "../ee-config.php";
 
 $twitter_handle = $_GET['twitter_handle'];
 $city = $_GET['city'];
+$city = '%'.$city.'%';
 
 if ( empty($twitter_handle) || empty($city) ) {
 	header('Content-Type: application/json');
@@ -38,8 +39,20 @@ if ($conn->connect_error) {
 	exit();
 }
 
-$sql = "SELECT * FROM review LIMIT 10";
-$result = $conn->query($sql);
+$sql = "SELECT *
+FROM review AS r 
+JOIN business AS b
+ON r.business_id = b.business_id
+WHERE city LIKE ?
+ORDER BY b.stars
+LIMIT 50";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('s',$city);
+$stmt->execute();
+$stmt->bind_result($result);
+$stmt->fetch();
+
+var_dump($result);
 
 $reviews = array();
 
