@@ -67,30 +67,30 @@ foreach ($response as $status) {
 $twitter_pi     = get_personal_insights($textForPI);
 $twitter_scores = array();
 if ($twitter_pi && $twitter_pi->tree && $twitter_pi->tree && $twitter_pi->tree->children) {
-	$twitter_scores[ 'personality'][ 'Openness'] += $twitter_pi->tree->children[ 0]->children[ 0]->children[ 0]->percentage;
-	$twitter_scores[ 'personality'][ 'Conscientiousness'] += $twitter_pi->tree->children[ 0]->children[ 0]->children[ 1]->percentage;
-	$twitter_scores[ 'personality'][ 'Extraversion'] += $twitter_pi->tree->children[ 0]->children[ 0]->children[ 1]->percentage;
-	$twitter_scores[ 'personality'][ 'Agreeableness'] += $twitter_pi->tree->children[ 0]->children[ 0]->children[ 2]->percentage;
-	$twitter_scores[ 'personality'][ 'Neuroticism'] += $twitter_pi->tree->children[ 0]->children[ 0]->children[ 3]->percentage;
+	$twitter_scores[ 'personality'][ 'Openness'] = $twitter_pi->tree->children[ 0]->children[ 0]->children[ 0]->percentage;
+	$twitter_scores[ 'personality'][ 'Conscientiousness'] = $twitter_pi->tree->children[ 0]->children[ 0]->children[ 1]->percentage;
+	$twitter_scores[ 'personality'][ 'Extraversion'] = $twitter_pi->tree->children[ 0]->children[ 0]->children[ 1]->percentage;
+	$twitter_scores[ 'personality'][ 'Agreeableness'] = $twitter_pi->tree->children[ 0]->children[ 0]->children[ 2]->percentage;
+	$twitter_scores[ 'personality'][ 'Neuroticism'] = $twitter_pi->tree->children[ 0]->children[ 0]->children[ 3]->percentage;
 
-	$twitter_scores[ 'needs'][ 'Challenge'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 0]->percentage;
-	$twitter_scores[ 'needs'][ 'Closeness'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 1]->percentage;
-	$twitter_scores[ 'needs'][ 'Curiosity'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 2]->percentage;
-	$twitter_scores[ 'needs'][ 'Excitement'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 3]->percentage;
-	$twitter_scores[ 'needs'][ 'Harmony'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 4]->percentage;
-	$twitter_scores[ 'needs'][ 'Ideal'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 5]->percentage;
-	$twitter_scores[ 'needs'][ 'Liberty'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 6]->percentage;
-	$twitter_scores[ 'needs'][ 'Love'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 7]->percentage;
-	$twitter_scores[ 'needs'][ 'Practicality'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 8]->percentage;
-	$twitter_scores[ 'needs'][ 'Self-expression'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 9]->percentage;
-	$twitter_scores[ 'needs'][ 'Stability'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 10]->percentage;
-	$twitter_scores[ 'needs'][ 'Structure'] += $twitter_pi->tree->children[ 1]->children[ 0]->children[ 11]->percentage;
+	$twitter_scores[ 'needs'][ 'Challenge'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 0]->percentage;
+	$twitter_scores[ 'needs'][ 'Closeness'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 1]->percentage;
+	$twitter_scores[ 'needs'][ 'Curiosity'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 2]->percentage;
+	$twitter_scores[ 'needs'][ 'Excitement'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 3]->percentage;
+	$twitter_scores[ 'needs'][ 'Harmony'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 4]->percentage;
+	$twitter_scores[ 'needs'][ 'Ideal'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 5]->percentage;
+	$twitter_scores[ 'needs'][ 'Liberty'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 6]->percentage;
+	$twitter_scores[ 'needs'][ 'Love'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 7]->percentage;
+	$twitter_scores[ 'needs'][ 'Practicality'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 8]->percentage;
+	$twitter_scores[ 'needs'][ 'Self-expression'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 9]->percentage;
+	$twitter_scores[ 'needs'][ 'Stability'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 10]->percentage;
+	$twitter_scores[ 'needs'][ 'Structure'] = $twitter_pi->tree->children[ 1]->children[ 0]->children[ 11]->percentage;
 
-	$twitter_scores[ 'values'][ 'Conservation'] += $twitter_pi->tree->children[ 2]->children[ 0]->children[ 0]->percentage;
-	$twitter_scores[ 'values'][ 'Openness to change'] += $twitter_pi->tree->children[ 2]->children[ 0]->children[ 1]->percentage;
-	$twitter_scores[ 'values'][ 'Hedonism'] += $twitter_pi->tree->children[ 2]->children[ 0]->children[ 2]->percentage;
-	$twitter_scores[ 'values'][ 'Self-enhancement'] += $twitter_pi->tree->children[ 2]->children[ 0]->children[ 3]->percentage;
-	$twitter_scores[ 'values'][ 'Self-transcendence'] += $twitter_pi->tree->children[ 2]->children[ 0]->children[ 4]->percentage;
+	$twitter_scores[ 'values'][ 'Conservation'] = $twitter_pi->tree->children[ 2]->children[ 0]->children[ 0]->percentage;
+	$twitter_scores[ 'values'][ 'Openness to change'] = $twitter_pi->tree->children[ 2]->children[ 0]->children[ 1]->percentage;
+	$twitter_scores[ 'values'][ 'Hedonism'] = $twitter_pi->tree->children[ 2]->children[ 0]->children[ 2]->percentage;
+	$twitter_scores[ 'values'][ 'Self-enhancement'] = $twitter_pi->tree->children[ 2]->children[ 0]->children[ 3]->percentage;
+	$twitter_scores[ 'values'][ 'Self-transcendence'] = $twitter_pi->tree->children[ 2]->children[ 0]->children[ 4]->percentage;
 }
 
 // 1.1 Send for PI and SA to IBM Watson API.
