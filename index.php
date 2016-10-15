@@ -5,6 +5,8 @@
  * Date: 15/10/16
  * Time: 09:04
  */
+include('./httpful.phar');
+
 function get_personal_insights($text) {
 	$url = 'https://gateway.watsonplatform.net/personality-insights/api/v2/profile';
 	$data = $text;
@@ -29,7 +31,7 @@ function get_sentimental_analysis($content) {
 
     return json_decode($result);
 }
-include('./httpful.phar');
+
 include_once "../ee-config.php";
 require "twitteroauth/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -61,6 +63,9 @@ $textForPI = "";
 foreach ($response as $status) {
     $textForPI .= $status->text;
 }
+
+var_dump($textForPI);
+exit();
 
 // 1.1 Send for PI and SA to IBM Watson API.
 $sa = get_sentimental_analysis($textForPI);
