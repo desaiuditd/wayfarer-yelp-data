@@ -21,9 +21,7 @@ function get_personal_insights($text) {
 	$result = file_get_contents($url, false, $context);
 	if ($result === FALSE) { return false; }
 
-	var_dump($result);
-
-	return $result;
+	return json_decode($result);
 }
 
 include_once "../ee-config.php";
