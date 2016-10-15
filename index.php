@@ -6,25 +6,19 @@
  * Time: 09:04
  */
 function get_personal_insights($text) {
-	$url = 'https://d5020f3a-9667-4ff3-b084-b3f17ced03ed:YfHke0nzjrgB@gateway.watsonplatform.net/personality-insights/api/v2/profile';
+	$url = 'https://gateway.watsonplatform.net/personality-insights/api/v2/profile';
 	error_log($url);
 	$data = $text;
 
-	// use key 'http' even if you send the request to https://...
-	$options = array(
-		'http' => array(
-			'header'  => "Content-type: text/plain\r\n",
-			'method'  => 'POST',
-			'content' => $data,
-		),
-	);
-	$context  = stream_context_create($options);
-	$result = file_get_contents($url, false, $context);
-	if ($result === FALSE) { return false; }
+	$result = \Httpful\Request::post($url)
+								->authenticateWith('d5020f3a-9667-4ff3-b084-b3f17ced03ed', 'YfHke0nzjrgB')
+	                            ->body($data)
+	                            ->sends(\Httpful\Mime::PLAIN)
+	                            ->send();
 
-	error_log(json_decode($result));
+	error_log($result);
 
-	return json_decode($result);
+	return $result;
 }
 
 function get_sentimental_analysis($content) {
@@ -44,6 +38,7 @@ function get_sentimental_analysis($content) {
     if ($result === FALSE) { return false; }
     return json_decode($result);
 }
+include('./httpful.phar');
 include_once "../ee-config.php";
 require "twitteroauth/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
