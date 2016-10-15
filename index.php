@@ -67,9 +67,6 @@ foreach ($response as $status) {
 // 1.1 Send for PI and SA to IBM Watson API.
 $sa = get_sentimental_analysis($textForPI);
 
-var_dump($sa);
-exit();
-
 // 2. Take city & fetch reviews
 
 // Create connection
