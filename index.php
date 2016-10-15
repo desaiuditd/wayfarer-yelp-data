@@ -103,6 +103,7 @@ if ($result->num_rows > 0) {
 }
 
 foreach ($businesses as $i => $b) {
+	error_log("business - ".$i);
 	$sql = "SELECT *
 		FROM review AS r
 		WHERE r.business_id = '" . $b['business_id'] . "'
@@ -149,6 +150,8 @@ foreach ($businesses as $i => $b) {
 			while (str_word_count($text_for_pi) <= 100) {
 				$text_for_pi = $text_for_pi + $text_for_pi;
 			}
+
+			error_log("new review - ".$i);
 
 			// PI API Call
 			$pi = get_personal_insights($text_for_pi);
