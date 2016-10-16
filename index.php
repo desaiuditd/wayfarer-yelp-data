@@ -120,10 +120,10 @@ require "twitteroauth/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
 define ('CONSUMER_KEY', "w3Bsm5zzNf9GBsZ6aO7zxGWhC");
 define ('CONSUMER_SECRET', "YNakI4IOV3tiRNlBbxrpuXWaYVhyNOPHOVxJM2zD3VRARm4UjK");
-$twitter_handle = $_GET['twitter_handle'];
+$twitter_handle = ! empty($_GET['twitter_handle']) ? $_GET['twitter_handle'] : false;
 $city = $_GET['city'];
 $city = '%'.$city.'%';
-$twitter_search = $_GET['twitter_search'];
+$twitter_search = ! ($_GET['twitter_search']) ? $_GET['twitter_search'] : false;
 
 $is_cool_mode = !empty($_GET['cool_mode']);
 
