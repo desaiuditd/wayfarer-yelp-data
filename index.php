@@ -130,7 +130,7 @@ if(empty($city)) {
 	header('Content-Type: application/json');
 	$json = array(
 		'error_code' => 400,
-		'message' => '`city` is Missing. Pass `city` values as query parameters: ' . $conn->connect_error,
+		'message' => '`city` is Missing. Pass `city` values as query parameters.',
 	);
 	echo json_encode($json);
 	exit();
@@ -163,7 +163,15 @@ if (! empty($twitter_handle)) {
 } else if (! empty($twitter_search)) {
 	$response = $connection->get("users/search",
 	                             ["q" => $twitter_search, "include_entities" => false, "count" => 1, "page" => 1]);
-	var_dump($response);
+	if ($response && $response[0]) {
+		$twitter_handle = $response[0]->screen_name;
+
+		$response = $connection->get("statuses/user_timeline",
+		                             ["screen_name" => $twitter_handle, "exclude_replies" => true, "count" => 500]);
+		foreach ($response as $status) {
+			$textForPI .= $status->text;
+		}
+	}
 }
 
 $twitter_pi     = get_personal_insights($textForPI);
