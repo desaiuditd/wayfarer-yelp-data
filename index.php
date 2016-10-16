@@ -322,34 +322,23 @@ foreach ($businesses as $i => $b) {
 	$businesses[$i]['wayfarer_review_scores']['values']['Hedonism'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['values']['Self-enhancement'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['values']['Self-transcendence'] /= count($businesses[$i]['reviews']);
-}
 
-usort($businesses, function($a, $b) {
-	$a_scores = array();
 	$b_scores = array();
 	$t_scores = array();
 
-	global $twitter_scores;
-
-	$a_scores = array_merge($a_scores, array_values($a['wayfarer_review_scores']['personality']));
-	$a_scores = array_merge($a_scores, array_values($a['wayfarer_review_scores']['needs']));
-	$a_scores = array_merge($a_scores, array_values($a['wayfarer_review_scores']['values']));
-
-	$b_scores = array_merge($b_scores, array_values($b['wayfarer_review_scores']['personality']));
-	$b_scores = array_merge($b_scores, array_values($b['wayfarer_review_scores']['needs']));
-	$b_scores = array_merge($b_scores, array_values($b['wayfarer_review_scores']['values']));
+	$b_scores = array_merge($b_scores, array_values($businesses[i]['wayfarer_review_scores']['personality']));
+	$b_scores = array_merge($b_scores, array_values($businesses[i]['wayfarer_review_scores']['needs']));
+	$b_scores = array_merge($b_scores, array_values($businesses[i]['wayfarer_review_scores']['values']));
 
 	$t_scores = array_merge($t_scores, array_values($twitter_scores['personality']));
 	$t_scores = array_merge($t_scores, array_values($twitter_scores['needs']));
 	$t_scores = array_merge($t_scores, array_values($twitter_scores['values']));
 
-	$at_corr = score_correlation($a_scores, $t_scores);
-	$bt_corr = score_correlation($b_scores, $t_scores);
+	$businesses[i]['score_correlation'] = score_correlation($b_scores, $t_scores);
+}
 
-	var_dump($at_corr);
-	var_dump($bt_corr);
-
-	return $at_corr > $bt_corr;
+usort($businesses, function($a, $b) {
+	return $a['score_correlation'] > $b['score_correlation'];
 });
 
 $conn->close();
