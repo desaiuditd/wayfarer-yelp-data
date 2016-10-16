@@ -176,6 +176,7 @@ if (! empty($twitter_handle)) {
 }
 
 $twitter_pi     = get_personal_insights($textForPI);
+error_log(var_export($twitter_pi,true));
 $twitter_scores = array();
 if ($twitter_pi && $twitter_pi->tree && $twitter_pi->tree && $twitter_pi->tree->children) {
 	$twitter_scores[ 'personality'][ 'Openness'] = $twitter_pi->tree->children[ 0]->children[ 0]->children[ 0]->percentage;
