@@ -163,6 +163,7 @@ if (! empty($twitter_handle)) {
 } else if (! empty($twitter_search)) {
 	$response = $connection->get("users/search",
 	                             ["q" => $twitter_search, "include_entities" => false, "count" => 1, "page" => 1]);
+	error_log(var_export($response,true));
 	if ($response && $response[0]) {
 		$twitter_handle = $response[0]->screen_name;
 
