@@ -196,10 +196,13 @@ if ($conn->connect_error) {
 	exit();
 }
 
+$night_life = "AND b.categories LIKE '%nightlife%'";
+
 $sql = "SELECT *
 	FROM business AS b
-	WHERE b.city LIKE '%" . $city . "%'
-	ORDER BY b.stars DESC
+	WHERE b.city LIKE '%" . $city . "%'"
+	. ( ($is_cool_mode) ? $night_life : '' ) .
+	"ORDER BY b.stars DESC
 	LIMIT 5";
 $result = $conn->query($sql);
 
@@ -271,11 +274,11 @@ foreach ($businesses as $i => $b) {
 				$businesses[$i]['wayfarer_review_scores']['personality']['Agreeableness'] += $pi->tree->children[0]->children[0]->children[2]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['personality']['Neuroticism'] += $pi->tree->children[0]->children[0]->children[3]->percentage;
 
-				$challenge = ($is_cool_mode) ? 5 * $pi->tree->children[1]->children[0]->children[0]->percentage : $pi->tree->children[1]->children[0]->children[0]->percentage;
+				$challenge = ($is_cool_mode) ? 2 * $pi->tree->children[1]->children[0]->children[0]->percentage : $pi->tree->children[1]->children[0]->children[0]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Challenge'] += $challenge;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Closeness'] += $pi->tree->children[1]->children[0]->children[1]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Curiosity'] += $pi->tree->children[1]->children[0]->children[2]->percentage;
-				$excitement = ($is_cool_mode) ? 5 * $pi->tree->children[1]->children[0]->children[3]->percentage : $pi->tree->children[1]->children[0]->children[3]->percentage;
+				$excitement = ($is_cool_mode) ? 2 * $pi->tree->children[1]->children[0]->children[3]->percentage : $pi->tree->children[1]->children[0]->children[3]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Excitement'] += $excitement;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Harmony'] += $pi->tree->children[1]->children[0]->children[4]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['needs']['Ideal'] += $pi->tree->children[1]->children[0]->children[5]->percentage;
@@ -287,7 +290,7 @@ foreach ($businesses as $i => $b) {
 				$businesses[$i]['wayfarer_review_scores']['needs']['Structure'] += $pi->tree->children[1]->children[0]->children[11]->percentage;
 
 				$businesses[$i]['wayfarer_review_scores']['values']['Conservation'] += $pi->tree->children[2]->children[0]->children[0]->percentage;
-				$openness = ($is_cool_mode) ? 5 * $pi->tree->children[2]->children[0]->children[1]->percentage : $pi->tree->children[2]->children[0]->children[1]->percentage;
+				$openness = ($is_cool_mode) ? 2 * $pi->tree->children[2]->children[0]->children[1]->percentage : $pi->tree->children[2]->children[0]->children[1]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['values']['Openness to change'] += $openness;
 				$businesses[$i]['wayfarer_review_scores']['values']['Hedonism'] += $pi->tree->children[2]->children[0]->children[2]->percentage;
 				$businesses[$i]['wayfarer_review_scores']['values']['Self-enhancement'] += $pi->tree->children[2]->children[0]->children[3]->percentage;
@@ -297,7 +300,7 @@ foreach ($businesses as $i => $b) {
 		}
 	}
 
-	$total = ($is_cool_mode) ? (count($businesses[$i]['reviews']) + 4) : count($businesses[$i]['reviews']);
+	$total = ($is_cool_mode) ? (count($businesses[$i]['reviews']) + 1) : count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['personality']['Openness'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['personality']['Conscientiousness'] /= count($businesses[$i]['reviews']);
 	$businesses[$i]['wayfarer_review_scores']['personality']['Extraversion'] /= count($businesses[$i]['reviews']);
