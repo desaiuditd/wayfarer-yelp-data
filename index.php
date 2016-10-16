@@ -123,14 +123,25 @@ define ('CONSUMER_SECRET', "YNakI4IOV3tiRNlBbxrpuXWaYVhyNOPHOVxJM2zD3VRARm4UjK")
 $twitter_handle = $_GET['twitter_handle'];
 $city = $_GET['city'];
 $city = '%'.$city.'%';
+$twitter_search = $_GET['twitter_search'];
 
 $is_cool_mode = !empty($_GET['cool_mode']);
 
-if ( empty($twitter_handle) || empty($city) ) {
+if(empty($city)) {
 	header('Content-Type: application/json');
 	$json = array(
 		'error_code' => 400,
-		'message' => 'Data Missing. Pass `twitter_handle` & `city` values as query parameters: ' . $conn->connect_error,
+		'message' => '`city` is Missing. Pass `city` values as query parameters: ' . $conn->connect_error,
+	);
+	echo json_encode($json);
+	exit();
+}
+
+if ( empty($twitter_handle) && empty($twitter_search) ) {
+	header('Content-Type: application/json');
+	$json = array(
+		'error_code' => 400,
+		'message' => 'Data is  Missing. Pass either `twitter_handle` & `twitter_search` values as query parameters: ' . $conn->connect_error,
 	);
 	echo json_encode($json);
 	exit();
@@ -142,11 +153,17 @@ $access_token_secret = "TL8acUKIJXaUPEACs2Tei2XxFcCJLI70VzosCsZTqwBch";
 $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token, $access_token_secret);
 $content = $connection->get("account/verify_credentials");
 
-$response = $connection->get("statuses/user_timeline",
-    ["screen_name" => $twitter_handle, "exclude_replies" => true, "count" => 500]);
-$textForPI = "";
-foreach ($response as $status) {
-    $textForPI .= $status->text;
+$textForPI = '';
+if (! empty($twitter_handle)) {
+	$response = $connection->get("statuses/user_timeline",
+	                             ["screen_name" => $twitter_handle, "exclude_replies" => true, "count" => 500]);
+	foreach ($response as $status) {
+		$textForPI .= $status->text;
+	}
+} else if (! empty($twitter_search)) {
+	$response = $connection->get("users/search",
+	                             ["q" => $twitter_search, "include_entities" => false, "count" => 1, "page" => 1]);
+	var_dump($response);
 }
 
 $twitter_pi     = get_personal_insights($textForPI);
