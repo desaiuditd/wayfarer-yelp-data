@@ -177,7 +177,36 @@ if (! empty($twitter_handle)) {
 
 $twitter_pi     = get_personal_insights($textForPI);
 error_log(var_export($twitter_pi,true));
-$twitter_scores = array();
+$twitter_scores = array(
+	'personality' => array(
+		'Openness' => 0,
+		'Conscientiousness' => 0,
+		'Extraversion' => 0,
+		'Agreeableness' => 0,
+		'Neuroticism' => 0,
+	),
+	'needs' => array(
+		'Challenge' => 0,
+		'Closeness' => 0,
+		'Curiosity' => 0,
+		'Excitement' => 0,
+		'Harmony' => 0,
+		'Ideal' => 0,
+		'Liberty' => 0,
+		'Love' => 0,
+		'Practicality' => 0,
+		'Self-expression' => 0,
+		'Stability' => 0,
+		'Structure' => 0,
+	),
+	'values' => array(
+		'Conservation' => 0,
+		'Openness to change' => 0,
+		'Hedonism' => 0,
+		'Self-enhancement' => 0,
+		'Self-transcendence' => 0,
+	),
+);
 if (!empty($twitter_pi) && !empty($twitter_pi->tree) && !empty($twitter_pi->tree->children)) {
 	$twitter_scores[ 'personality'][ 'Openness'] = $twitter_pi->tree->children[ 0]->children[ 0]->children[ 0]->percentage;
 	$twitter_scores[ 'personality'][ 'Conscientiousness'] = $twitter_pi->tree->children[ 0]->children[ 0]->children[ 1]->percentage;
