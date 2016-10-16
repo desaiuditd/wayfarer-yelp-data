@@ -326,15 +326,15 @@ foreach ($businesses as $i => $b) {
 	$b_scores = array();
 	$t_scores = array();
 
-	$b_scores = array_merge($b_scores, array_values($businesses[i]['wayfarer_review_scores']['personality']));
-	$b_scores = array_merge($b_scores, array_values($businesses[i]['wayfarer_review_scores']['needs']));
-	$b_scores = array_merge($b_scores, array_values($businesses[i]['wayfarer_review_scores']['values']));
+	$b_scores = array_merge($b_scores, array_values($businesses[$i]['wayfarer_review_scores']['personality']));
+	$b_scores = array_merge($b_scores, array_values($businesses[$i]['wayfarer_review_scores']['needs']));
+	$b_scores = array_merge($b_scores, array_values($businesses[$i]['wayfarer_review_scores']['values']));
 
 	$t_scores = array_merge($t_scores, array_values($twitter_scores['personality']));
 	$t_scores = array_merge($t_scores, array_values($twitter_scores['needs']));
 	$t_scores = array_merge($t_scores, array_values($twitter_scores['values']));
 
-	$businesses[i]['score_correlation'] = score_correlation($b_scores, $t_scores);
+	$businesses[$i]['score_correlation'] = score_correlation($b_scores, $t_scores);
 }
 
 usort($businesses, function($a, $b) {
