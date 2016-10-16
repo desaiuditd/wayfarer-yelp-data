@@ -338,7 +338,7 @@ foreach ($businesses as $i => $b) {
 }
 
 usort($businesses, function($a, $b) {
-	return $a['score_correlation'] > $b['score_correlation'];
+	return $a['score_correlation'] < $b['score_correlation'];
 });
 
 $conn->close();
