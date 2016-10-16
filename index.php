@@ -249,6 +249,7 @@ foreach ($businesses as $i => $b) {
 
 usort($businesses, function($a, $b) {
 
+	echo '<pre>';
 	var_dump($a);
 	var_dump($b);
 
@@ -282,6 +283,7 @@ usort($businesses, function($a, $b) {
 	var_dump($at_corr);
 	var_dump($bt_corr);
 
+	echo '</pre>';
 	return $at_corr > $bt_corr;
 });
 
