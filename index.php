@@ -248,6 +248,10 @@ foreach ($businesses as $i => $b) {
 }
 
 usort($businesses, function($a, $b) {
+
+	var_dump($a);
+	var_dump($b);
+
 	$a_scores = array();
 	$b_scores = array();
 	$t_scores = array();
