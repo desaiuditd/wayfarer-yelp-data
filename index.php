@@ -13,6 +13,83 @@
 
 include('./httpful.phar');
 
+function score_correlation($arr1, $arr2) {
+	$correlation = 0;
+
+	$k = sum_product_mean_deviation( $arr1, $arr2);
+	$ssmd1 = sum_square_mean_deviation( $arr1);
+	$ssmd2 = sum_square_mean_deviation( $arr2);
+
+	$product = $ssmd1 * $ssmd2;
+
+	$res = sqrt($product);
+
+	$correlation = $k / $res;
+
+	return $correlation;
+}
+
+function sum_product_mean_deviation( $arr1, $arr2) {
+	$sum = 0;
+
+	$num = count($arr1);
+
+	for($i=0; $i<$num; $i++) {
+		$sum = $sum + product_mean_deviation( $arr1, $arr2, $i);
+	}
+
+	return $sum;
+}
+
+function product_mean_deviation( $arr1, $arr2, $item) {
+	return ( mean_deviation( $arr1, $item) * mean_deviation( $arr2, $item));
+}
+
+function sum_square_mean_deviation( $arr) {
+	$sum = 0;
+
+	$num = count($arr);
+
+	for($i=0; $i<$num; $i++) {
+		$sum = $sum + square_mean_deviation( $arr, $i);
+	}
+
+	return $sum;
+}
+
+function square_mean_deviation( $arr, $item) {
+	return mean_deviation( $arr, $item) * mean_deviation( $arr, $item);
+}
+
+function sum_mean_deviation( $arr) {
+	$sum = 0;
+
+	$num = count($arr);
+
+	for($i=0; $i<$num; $i++) {
+		$sum = $sum + mean_deviation( $arr, $i);
+	}
+
+	return $sum;
+}
+
+function mean_deviation( $arr, $item) {
+	$average = average( $arr);
+
+	return $arr[$item] - $average;
+}
+
+function average( $arr) {
+	$sum = sum( $arr);
+	$num = count($arr);
+
+	return $sum/$num;
+}
+
+function sum( $arr) {
+	return array_sum($arr);
+}
+
 function get_personal_insights($text) {
 	$url = 'https://gateway.watsonplatform.net/personality-insights/api/v2/profile';
 	$data = $text;
@@ -248,42 +325,30 @@ foreach ($businesses as $i => $b) {
 }
 
 usort($businesses, function($a, $b) {
-
-	echo '<pre>';
-	var_dump($a);
-	var_dump($b);
-
 	$a_scores = array();
 	$b_scores = array();
 	$t_scores = array();
 
 	global $twitter_scores;
 
-	array_push($a_scores, array_values($a['wayfarer_review_scores']['personality']));
-	array_push($a_scores, array_values($a['wayfarer_review_scores']['needs']));
-	array_push($a_scores, array_values($a['wayfarer_review_scores']['values']));
+	$a_scores = array_merge($a_scores, array_values($a['wayfarer_review_scores']['personality']));
+	$a_scores = array_merge($a_scores, array_values($a['wayfarer_review_scores']['needs']));
+	$a_scores = array_merge($a_scores, array_values($a['wayfarer_review_scores']['values']));
 
-	var_dump($a_scores);
+	$b_scores = array_merge($b_scores, array_values($b['wayfarer_review_scores']['personality']));
+	$b_scores = array_merge($b_scores, array_values($b['wayfarer_review_scores']['needs']));
+	$b_scores = array_merge($b_scores, array_values($b['wayfarer_review_scores']['values']));
 
-	array_push($b_scores, array_values($b['wayfarer_review_scores']['personality']));
-	array_push($b_scores, array_values($b['wayfarer_review_scores']['needs']));
-	array_push($b_scores, array_values($b['wayfarer_review_scores']['values']));
+	$t_scores = array_merge($t_scores, array_values($twitter_scores['personality']));
+	$t_scores = array_merge($t_scores, array_values($twitter_scores['needs']));
+	$t_scores = array_merge($t_scores, array_values($twitter_scores['values']));
 
-	var_dump($b_scores);
-
-	array_push($t_scores, array_values($twitter_scores['personality']));
-	array_push($t_scores, array_values($twitter_scores['needs']));
-	array_push($t_scores, array_values($twitter_scores['values']));
-
-	var_dump($t_scores);
-
-	$at_corr = stats_stat_correlation($a_scores, $t_scores);
-	$bt_corr = stats_stat_correlation($b_scores, $t_scores);
+	$at_corr = score_correlation($a_scores, $t_scores);
+	$bt_corr = score_correlation($b_scores, $t_scores);
 
 	var_dump($at_corr);
 	var_dump($bt_corr);
 
-	echo '</pre>';
 	return $at_corr > $bt_corr;
 });
 
