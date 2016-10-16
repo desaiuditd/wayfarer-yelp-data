@@ -247,6 +247,40 @@ foreach ($businesses as $i => $b) {
 	$businesses[$i]['wayfarer_review_scores']['values']['Self-transcendence'] /= count($businesses[$i]['reviews']);
 }
 
+usort($businesses, function($a, $b) {
+	$a_scores = array();
+	$b_scores = array();
+	$t_scores = array();
+
+	global $twitter_scores;
+
+	array_push($a_scores, array_values($a['wayfarer_review_scores']['personality']));
+	array_push($a_scores, array_values($a['wayfarer_review_scores']['needs']));
+	array_push($a_scores, array_values($a['wayfarer_review_scores']['values']));
+
+	var_dump($a_scores);
+
+	array_push($b_scores, array_values($b['wayfarer_review_scores']['personality']));
+	array_push($b_scores, array_values($b['wayfarer_review_scores']['needs']));
+	array_push($b_scores, array_values($b['wayfarer_review_scores']['values']));
+
+	var_dump($b_scores);
+
+	array_push($t_scores, array_values($twitter_scores['wayfarer_review_scores']['personality']));
+	array_push($t_scores, array_values($twitter_scores['wayfarer_review_scores']['needs']));
+	array_push($t_scores, array_values($twitter_scores['wayfarer_review_scores']['values']));
+
+	var_dump($t_scores);
+
+	$at_corr = stats_stat_correlation($a_scores, $t_scores);
+	$bt_corr = stats_stat_correlation($b_scores, $t_scores);
+
+	var_dump($at_corr);
+	var_dump($bt_corr);
+
+	return $at_corr > $bt_corr;
+});
+
 $conn->close();
 
 header('Content-Type: application/json');
