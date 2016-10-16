@@ -271,9 +271,9 @@ usort($businesses, function($a, $b) {
 
 	var_dump($b_scores);
 
-	array_push($t_scores, array_values($twitter_scores['wayfarer_review_scores']['personality']));
-	array_push($t_scores, array_values($twitter_scores['wayfarer_review_scores']['needs']));
-	array_push($t_scores, array_values($twitter_scores['wayfarer_review_scores']['values']));
+	array_push($t_scores, array_values($twitter_scores['personality']));
+	array_push($t_scores, array_values($twitter_scores['needs']));
+	array_push($t_scores, array_values($twitter_scores['values']));
 
 	var_dump($t_scores);
 
